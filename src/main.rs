@@ -1,4 +1,5 @@
 use ripgrep::Config;
+use ripgrep::filesearch;
 use std::env;
 use std::process;
 
@@ -16,5 +17,10 @@ fn main() {
             process::exit(1);
         }
     });
-    println!("{}\n{}", config.pattern, config.path);
+
+    if let Ok(result) = filesearch::find_match(config) {
+        for (line_number, line_content) in result {
+            println!("Line {} {}", line_number, line_content);
+        }
+    }
 }

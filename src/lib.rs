@@ -1,4 +1,4 @@
-mod filesearch;
+pub mod filesearch;
 
 #[derive(Debug)]
 pub struct Config<'a> {
