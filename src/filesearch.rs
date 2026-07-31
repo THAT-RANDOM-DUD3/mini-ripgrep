@@ -1,19 +1,17 @@
 use crate::Config;
 use std::fs;
 
-pub fn find_match(config: Config) -> Result<Vec<(usize, String)>, ()> {
-    match fs::read_to_string("message.txt") {
-        Ok(value) => {
-            let contents = value.as_str();
-            let mut matches: Vec<(usize, String)> = vec![];
-            for (number, line) in contents.lines().enumerate() {
-                if line.contains(config.pattern) {
-                    matches.push((number + 1, line.to_string()));
-                }
-            }
-            Ok(matches)
+pub fn find_match(contents: &str, pattern: &str) -> Vec<(usize, String)> {
+    let mut matches: Vec<(usize, String)> = vec![];
+    for (number, line) in contents.lines().enumerate() {
+        if line.contains(pattern) {
+            matches.push((number + 1, line.to_string()));
         }
-
-        Err(_error) => Err(()),
     }
+    matches
+}
+
+pub fn search_file(config: &Config) -> Result<Vec<(usize, String)>, std::io::Error> {
+    let contents = fs::read_to_string(config.path())?;
+    Ok(find_match(&contents, config.pattern()))
 }
