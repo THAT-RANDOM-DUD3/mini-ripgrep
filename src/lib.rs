@@ -2,8 +2,8 @@ pub mod filesearch;
 
 #[derive(Debug)]
 pub struct Config<'a> {
-    pattern: &'a String,
-    path: &'a String,
+    pattern: &'a str,
+    path: &'a str,
 }
 #[derive(Debug)]
 pub enum Error {
@@ -19,7 +19,7 @@ impl<'a> Config<'a> {
             })
         } else if args.len() < 3 {
             Err(Error::InsufficientArguments(String::from(
-                "Isufficient arguments passed to the program",
+                "Insufficient arguments passed to the program",
             )))
         } else {
             Err(Error::TooMuchArguments(String::from(
@@ -31,11 +31,11 @@ impl<'a> Config<'a> {
         Self::validate_argument(args)
     }
 
-    pub fn pattern(&self) -> &'a String {
+    pub fn pattern(&self) -> &'a str {
         self.pattern
     }
 
-    pub fn path(&self) -> &'a String {
+    pub fn path(&self) -> &'a str {
         self.path
     }
 }

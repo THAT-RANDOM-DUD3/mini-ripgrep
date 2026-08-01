@@ -1,17 +1,16 @@
 use crate::Config;
 use std::fs;
 
-pub fn find_match(contents: &str, pattern: &str) -> Vec<(usize, String)> {
-    let mut matches: Vec<(usize, String)> = vec![];
-    for (number, line) in contents.lines().enumerate() {
-        if line.contains(pattern) {
-            matches.push((number + 1, line.to_string()));
-        }
-    }
-    matches
+pub fn find_match<'a>(contents: &'a str, pattern: &'a str) -> Vec<(usize, String)> {
+    contents
+        .lines()
+        .enumerate()
+        .filter(|(_number, line)| line.contains(pattern))
+        .map(|(number, line)| (number + 1, line.to_string()))
+        .collect::<_>()
 }
 
-pub fn search_file(config: &Config) -> Result<Vec<(usize, String)>, std::io::Error> {
+pub fn search_file<'a>(config: Config<'a>) -> Result<Vec<(usize, String)>, std::io::Error> {
     let contents = fs::read_to_string(config.path())?;
     Ok(find_match(&contents, config.pattern()))
 }

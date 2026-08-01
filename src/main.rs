@@ -18,7 +18,7 @@ fn main() {
         }
     });
 
-    if let Ok(result) = filesearch::search_file(&config) {
+    if let Ok(result) = filesearch::search_file(config) {
         for (line_number, line_content) in result {
             println!("Line {} {}", line_number, line_content);
         }
